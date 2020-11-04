@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<header th:replace="fragments/menu :: header"></header>
+	
+
+<div class="container">
+	<div class="card" style="width:100%;" >
+		<div class="card-body">
+			<h5 class="card-header" ><p style="font-size: 0.9rem;">links</p>
+				<p style="font-size: 1.5rem;" > User Login Page </p>
+				<p style="font-size: 0.9rem;">rechts</p></h5>
+			<p class="card-text" >
+
+			<form th:action="@{/login}" method="post">
+
+				<!-- error message -->
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">Invalid username or
+						password.</div>
+				</div>
+
+				<!-- logout message -->
+				<div th:if="${param.logout}">
+					<div class="alert alert-info">You have been logged out.</div>
+				</div>
+
+				<div class = "form-group">
+					<label for ="username"> Username </label> :
+					<input type="text" class = "form-control" id ="username" name = "username"
+						   placeholder="Enter Email ID" autofocus="autofocus">
+				</div>
+
+				<div class="form-group">
+					<label for="password">Password</label>: <input type="password"
+																   id="password" name="password" class="form-control"
+																   placeholder="Enter Password" />
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<input type="submit" name="login-submit" id="login-submit"
+								   class="form-control btn btn-primary" value="Log In" />
+						</div>
+					</div>
+				</div>
+			<div class="form-group form-check">
+				<input name="remember-me" type="checkbox" class="form-check-input" id="remember">
+				<label class="form-check-label" for="remember">Erinnnern</label>
+			</div>
+			</form>
+
+
+			</p>
+			<h5 class="card-link">
+				<span>New user? <a href="/" th:href="@{/registration}">Register
+					here</a></span></h5>
+			<a th:href="@{/forgot/password}">Forgot Password</a>
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+					data-target="#formForFeed"
+					style="border:none;background-color:transparent">
+				<i class="far fa-plus-square fa-3x" style="display:flex; justify-content: center; margin-bottom:1vh;"></i>
+			</button>
+<!--			 Form for save Registration-->
+			<form action="#"  method="post">
+				<div class="modal fade" id="formForFeed" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+					 aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLongTitle">Kommentieren</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<!--                    <input type="text" class="form-control"  th:field="*{userId}"  placeholder="userId">-->
+								<input type="hidden" class="form-control">
+
+								<select class="selectpicker" >
+									<option value="red">Red</option>
+									<option value="blue">Blue</option>
+									<option value="green">Green</option>
+									<option value="black">Black</option>
+									<option value="yellow">Yellow</option>
+									<option value="orange">Orange</option>
+									<option value="brown">Brown</option>
+									<option value="null">No usprobiere was alls guet usgset..</option>
+								</select>
+
+
+								<input type="text" class="form-control" placeholder="POST">
+								<!--                    <input type="hidden" class="form-control" th:value="${timestamp}"  th:name="timestamp"  >-->
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Save Feed</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+
+
+
+</body>
+</html>

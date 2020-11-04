@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:replace="fragments/head :: head"></head>
+
+<body>
+<header th:replace="fragments/menu :: header"></header>
+<div class="container">
+    <button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#formForFeed"
+            style="border:none;background-color:transparent">
+        <i class="far fa-plus-square fa-3x" style="display:flex; justify-content: center; margin-bottom:1vh;"></i>
+    </button>
+    <div class="card" style="width:100%;" th:each="feed : ${listFeeds}" th:style="'background-color:' +${feed.color}+';'">
+        <div class="card-header">
+
+            <div class="likes">
+            <form action="#" th:action="@{/likefeed(id=${feed.getId()})}" method="post">
+                <button type="submit" class="btn btn-primary" ><i class="fas fa-thumbs-up"></i></button>
+            </form>
+            <p style="font-size:0.9rem;" th:text="${feed.likes}"> LIKES</p>
+            <form action="#" th:action="@{/dislikefeed(id=${feed.getId()})}" method="post">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-thumbs-down"></i></button>
+            </form>
+            </div>
+
+
+            <p style="font-size: 1.5rem;" th:text="${feed.username}">nr 3</p>
+            <p style="font-size: 0.9rem;" th:text="${feed.timestamp}">titel ->ID of comment</p>
+        </div>
+        <div class="card-body">
+            <!--            <h5 class="card-title"></h5>-->
+            <p class="card-text" th:text="${feed.post}">Lorem Ipsum KommentarLorem Ipsum Kommentar Lorem Ipsum
+                Kommentar Lorem Ipsum Kommentar Lorem Ipsum Kommentar Lorem Ipsum Kommentar Lorem Ipsum Kommentar Lorem
+                Ipsum Kommentar Lorem Ipsum Kommentar </p>
+            <h5 class="card-link">
+
+
+                <button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#formForChatRequest"
+                        style="border:none;background-color:transparent">
+                    <i class="far fa-plus-square fa-3x"
+                       style="display:flex; justify-content: center; margin-bottom:1vh;"></i>
+                </button>
+                <!-- Form for save Request -->
+                <form action="#" th:action="@{saveRequest}" th:object="${chatRequest}" method="post">
+                    <div class="modal fade" id="formForChatRequest" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">SAVE CHAT REQ</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <input type="hidden" class="form-control" th:value="${feed.username}" th:name="to"
+                                           placeholder="to">
+                                    <input type="text" class="form-control" th:field="*{message}" placeholder="MESSAGE">
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Request</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <a th:href="@{'/comment'(id=${feed.getId()})}"><i class="far fa-comment-dots fa-3x"></i></a>
+
+            </h5>
+        </div>
+
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}"
+                           th:href="@{'/user/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                        <span th:unless="${currentPage != i}"><a href="#">[[${i}]]</a></span>  &nbsp; &nbsp;
+					</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/user/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/user/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Form for save FEed -->
+<form action="#" th:action="@{saveFeed}" th:object="${feed}" method="post">
+    <div class="modal fade" id="formForFeed" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Kommentieren</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!--                    <input type="text" class="form-control"  th:field="*{userId}"  placeholder="userId">-->
+                    <input type="hidden" class="form-control" th:value="${details}" th:name="username">
+
+                    <select class="selectpicker" th:field="*{color}">
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="black">Black</option>
+                        <option value="coral">Coral</option>
+                        <option value="orange">Orange</option>
+                        <option value="brown">Brown</option>W
+                    </select>
+
+
+                    <input type="text" class="form-control" th:field="*{post}" placeholder="POST">
+                    <!--                    <input type="hidden" class="form-control" th:value="${timestamp}"  th:name="timestamp"  >-->
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Feed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:replace="fragments/head :: head" ></head>
+
+<body>
+<header th:replace="fragments/menu :: header"></header>
+<div class="container">
+    <div class="card" th:style="'background-color:' +${feedcoming.color}+';'">
+        <div class="card-body">
+            <h5 class="card-header" th:object="${feedcoming}" ><p style="font-size: 0.9rem;">titel ->tetet</p>
+                <p style="font-size: 1.5rem;" th:text="${feedcoming.id}">nr 3</p>
+                <p style="font-size: 0.9rem;">titel ->ID of comment</p></h5>
+            <p class="card-text" th:text="${feedcoming.post}">Lorem Ipsum KommentarLorem Ipsum Kommentar Lorem Ipsum
+                Kommentar Lorem Ipsum Kommentar Lorem Ipsum Kommentar Lorem Ipsum Kommentar Lorem Ipsum Kommentar Lorem
+                Ipsum Kommentar Lorem Ipsum Kommentar </p>
+            <h5 class="card-link"><a href="/" alt="">Antwort auf kommentar @ id von</a> <a href="/">
+                Melden / Anstössig...-></a></h5>
+        </div>
+    </div>
+
+    <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#formForComment"
+            style="border:none;background-color:transparent">
+        <i class="far fa-plus-square fa-3x" style="display:flex; justify-content: center; margin-bottom:1vh;"></i>
+    </button>
+
+
+    <div class="card"  th:each="comments : ${listComments}" style="background-color:black; width:90%;">
+        <div class="card-header" th:text="${comments.timestamp}">Topic or so</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${comments.comment}" >LOrem IPsum?.</p>  <p class="card-text" th:text="${comments.username}">LOrem IPsum?.</p>
+        </div>
+    </div>
+
+
+
+
+<form action="#"  th:action="@{/saveComment}"  th:object="${comment}" method="post">
+    <div class="modal fade" id="formForComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Kommentieren</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <input type="hidden" class="form-control" th:value="${details}" th:name="username">
+                    <input type="hidden" class="form-control" th:value="${feedcoming.id}"  th:name="feedId"  placeholder="FeedID">
+
+                    <input type="text" class="form-control" th:field="*{comment}" placeholder="Kommentar">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Feed!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</body>
+</html>

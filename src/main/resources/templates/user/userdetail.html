@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<header th:replace="fragments/menu :: header"></header>
+
+<div class="container">
+    <div class="card" style="width:100%;" >
+        <div class="card-body">
+            <h5 class="card-title" >
+                <p style="font-size: 1.5rem;" >User Settings</p>
+            </h5>
+            <p class="card-text" >Hey <span sec:authentication="principal.username"> USername</span><br>
+
+                <span sec:authentication="principal.authorities"> AUthorities</span></p>
+            <span sec:authentication="principal.password"></span> CHANGE PASSWORD ETC::
+            <p>Id: <th:block th:text="${user.getId()}"></th:block></p>
+            <p>Id: <th:block th:text="${user.getTimestamp()}"></th:block></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

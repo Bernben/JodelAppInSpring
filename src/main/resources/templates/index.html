@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<header th:replace="fragments/menu :: header"></header>
+<img th:src="@{/images/logo.svg}" class="logo">
+<div class="container">
+    <div class="card" style="width:100%;">
+        <div class="card-body">
+            <h5 class="card-header">
+                <p style="font-size: 1.5rem;">Registration and Login with Spring Boot, Spring Security,
+                    Thymeleaf, Hibernate and MySQL</p>
+            </h5>
+            <div class="button">TESTING NOTIFICATION</div>
+
+
+            <p class="card-text">Welcome <span sec:authentication="principal.username"> User</span>
+            <br /> <ul>Known Bugs
+
+
+
+<li> ADD FEED Comment notification for feed creator</li>
+        <li>FEED Integrate Region paramater.. auto save in "momentan" region</li>
+
+        </ul></p>
+            <h5 class="card-link"><a href="/" alt="">link</a> <a href="/">
+                link2</a></h5>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

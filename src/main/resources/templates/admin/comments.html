@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<header th:replace="fragments/menu :: header"></header>
+<div class="container my-2">
+    <h1>Comment List</h1>
+
+    <table border="1" class="steelBlueCols">
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{'/admin/page/' + ${currentPage} + '?sortField=userId&sortDir=' + ${reverseSortDir}}">
+                    UserID</a>
+            </th>
+            <th>
+                <a th:href="@{'/admin/page/' + ${currentPage} + '?sortField=feedId&sortDir=' + ${reverseSortDir}}">
+                    FeedId</a>
+            </th>
+            <th>
+                <a th:href="@{'/admin/page/' + ${currentPage} + '?sortField=comment&sortDir=' + ${reverseSortDir}}">
+                    Comment</a>
+            </th>
+
+            <th>
+                Timestamp
+            </th>
+
+            <th> Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${listComments}">
+            <td th:text="${comment.username}"></td>
+            <td th:text="${comment.feedId}"></td>
+            <td th:text="${comment.comment}"></td>
+            <td th:text="${comment.timestamp}"></td>
+            <td>
+
+
+                <a th:href="@{/admin/deleteComment/{id}(id=${comment.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}"
+                           th:href="@{'/admin/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                        <span th:unless="${currentPage != i}"><a href="#">[[${i}]]</a></span>  &nbsp; &nbsp;
+					</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/admin/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/admin/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
